@@ -224,9 +224,97 @@
             font-size: clamp(3.5rem, 13vw, 9rem);
         }
 
-        /* Footer: mínimo mantém mobile ok, máximo sobe bastante no desktop */
         .text-footer {
             font-size: clamp(3rem, 9vw, 7.5rem);
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s cubic-bezier(.22, .61, .36, 1),
+                transform 0.7s cubic-bezier(.22, .61, .36, 1);
+        }
+
+        .reveal.from-left {
+            transform: translateX(-32px);
+        }
+
+        .reveal.from-right {
+            transform: translateX(32px);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translate(0);
+        }
+
+        .reveal.delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal.delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal.delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal.delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        .reveal.delay-5 {
+            transition-delay: 0.5s;
+        }
+
+        .reveal.delay-6 {
+            transition-delay: 0.6s;
+        }
+
+        /* ── Hero 3D ────────────────────────────────────── */
+
+        /* Imagem faz parallax independente do conteúdo */
+        #hero-img {
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
+        /* Conteúdo recebe o tilt 3D */
+        #hero-content {
+            will-change: transform;
+            transition: transform 0.08s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        /* Entrada animada do conteúdo da hero */
+        @keyframes heroEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #hero-badge {
+            animation: heroEntrance .9s cubic-bezier(.22, .61, .36, 1) .2s both;
+        }
+
+        #hero-title {
+            animation: heroEntrance 1s cubic-bezier(.22, .61, .36, 1) .4s both;
+        }
+
+        #hero-sub {
+            animation: heroEntrance .9s cubic-bezier(.22, .61, .36, 1) .6s both;
+        }
+
+        #hero-buttons {
+            animation: heroEntrance .9s cubic-bezier(.22, .61, .36, 1) .8s both;
         }
     </style>
 </head>
@@ -253,24 +341,24 @@
     </nav>
 
     <!-- HERO -->
-    <header class="relative min-h-screen flex items-center justify-center text-center overflow-hidden py-20">
+    <header id="hero" class="relative min-h-screen flex items-center justify-center text-center overflow-hidden py-20">
         <div class="visual-container bg-cafe">
-            <img src="assets/bolo-morango.png" alt="" class="brightness-50" role="presentation">
+            <img id="hero-img" src="assets/bolo-morango.png" alt="" class="brightness-50" role="presentation">
         </div>
         <div class="absolute inset-0 hero-overlay" aria-hidden="true"></div>
 
-        <div class="relative z-10 px-6 max-w-4xl">
-            <span
+        <div id="hero-content" class="relative z-10 px-6 max-w-4xl">
+            <span id="hero-badge"
                 class="block text-caramelo font-extrabold tracking-[0.2em] md:tracking-[0.3em] uppercase text-[10px] md:text-xs mb-4">
                 Sabor Real • Sem Firula
             </span>
-            <h1 class="font-serif text-hero text-white mb-6 leading-[0.9]">
+            <h1 id="hero-title" class="font-serif text-hero text-white mb-6 leading-[0.9]">
                 Bolo de <br><i class="font-light italic">verdade.</i>
             </h1>
-            <p class="text-white/90 text-lg md:text-2xl font-light mb-10 max-w-2xl mx-auto px-4">
+            <p id="hero-sub" class="text-white/90 text-lg md:text-2xl font-light mb-10 max-w-2xl mx-auto px-4">
                 Leal no que importa: o prazer de comer.
             </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 px-4">
+            <div id="hero-buttons" class="flex flex-col sm:flex-row items-center justify-center gap-4 px-4">
                 <a href="#cardapio" class="btn-leal w-full sm:w-auto">Escolher sabor</a>
                 <a href="#encomenda"
                     class="border-2 border-white/20 text-white px-8 py-4 md:px-10 md:py-5 rounded-md font-bold hover:bg-white hover:text-cafe transition-all w-full sm:w-auto text-sm md:text-base">
@@ -284,12 +372,13 @@
     <section id="cardapio" class="py-16 md:py-24 bg-bege" aria-labelledby="cardapio-titulo">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-                <div class="max-w-xl">
+                <div class="max-w-xl reveal">
                     <h2 id="cardapio-titulo" class="font-serif text-4xl md:text-6xl mb-4 italic text-cafe">Escolha sua
                         Lealdade</h2>
                     <p class="text-cafe/60 text-base md:text-lg">Sem enfeites. Só o máximo de sabor em cada fatia.</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg border-l-4 border-caramelo shadow-sm w-full md:w-auto">
+                <div
+                    class="bg-white p-4 rounded-lg border-l-4 border-caramelo shadow-sm w-full md:w-auto reveal delay-2">
                     <span
                         class="text-[10px] text-caramelo font-black block mb-1 uppercase tracking-widest text-center md:text-left">Consulte</span>
                     <span
@@ -305,7 +394,7 @@
     <section id="manifesto" class="py-16 md:py-24 relative overflow-hidden bg-white border-y border-cafe/5"
         aria-labelledby="manifesto-titulo">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
-            <div class="order-2 lg:order-1 space-y-6 md:space-y-8">
+            <div class="order-2 lg:order-1 space-y-6 md:space-y-8 reveal from-left">
                 <span class="text-caramelo font-black tracking-widest uppercase text-[10px] md:text-xs">Manifesto Bolo
                     Leal</span>
                 <h2 id="manifesto-titulo"
@@ -333,10 +422,10 @@
                     </div>
                 </div>
             </div>
-            <div class="order-1 lg:order-2 relative px-4 md:px-0">
+            <div class="order-1 lg:order-2 relative px-4 md:px-0 reveal from-right">
                 <div class="polaroid w-full max-w-[280px] md:max-w-sm mx-auto shadow-2xl">
-                    <img src="assets/bolo-maracuja.png" class="w-full aspect-[4/5] object-cover"
-                        alt="Bolo de maracujá da Bolo Leal — recheio generoso em cada fatia">
+                    <img src="assets/rocambole-morango.png" class="w-full aspect-[4/5] object-cover"
+                        alt="Rocambole de morango da Bolo Leal — recheio generoso em cada fatia">
                     <p class="mt-4 font-serif italic text-center text-lg md:text-xl text-cafe">Honestidade em cada
                         camada</p>
                 </div>
@@ -355,7 +444,7 @@
         </div>
         <div class="absolute inset-0 footer-overlay" aria-hidden="true"></div>
 
-        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center reveal">
             <span
                 class="text-caramelo font-black tracking-[0.2em] md:tracking-[0.4em] uppercase text-[10px] md:text-xs mb-6 block">
                 Sua vez de provar
@@ -415,10 +504,11 @@
 
         function renderMenu() {
             const grid = document.getElementById('menu-grid');
-            menuItems.forEach(item => {
+            const delays = ['delay-1', 'delay-2', 'delay-3', 'delay-4', 'delay-5', 'delay-6'];
+            menuItems.forEach((item, i) => {
                 const li = document.createElement('div');
                 li.setAttribute('role', 'listitem');
-                li.className = 'group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-cafe/5';
+                li.className = `reveal ${delays[i] || ''} group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-cafe/5`;
                 li.innerHTML = `
                     <div class="h-60 md:h-72 overflow-hidden bg-bege">
                         <img
@@ -444,6 +534,9 @@
                 `;
                 grid.appendChild(li);
             });
+
+            // Inicia observer após renderizar os cards
+            initReveal();
         }
 
         function scrollToOrder() {
@@ -461,7 +554,65 @@
             }
         });
 
-        window.onload = () => { renderMenu(); };
+        // ── Hero 3D: parallax + tilt ─────────────────────
+        const hero = document.getElementById('hero');
+        const heroImg = document.getElementById('hero-img');
+        const heroContent = document.getElementById('hero-content');
+
+        // Parallax no scroll — imagem sobe mais devagar que a página
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            if (scrolled < window.innerHeight) {
+                heroImg.style.transform = `scale(1.1) translateY(${scrolled * 0.25}px)`;
+            }
+        }, { passive: true });
+
+        // Tilt 3D no movimento do mouse — só desktop
+        const isTouchDevice = window.matchMedia('(hover: none)').matches;
+        if (!isTouchDevice) {
+            hero.addEventListener('mousemove', (e) => {
+                const rect = hero.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                const dx = (e.clientX - cx) / (rect.width / 2); // -1 a 1
+                const dy = (e.clientY - cy) / (rect.height / 2); // -1 a 1
+
+                // Conteúdo inclina suavemente
+                const tiltX = dy * 6;   // graus vertical
+                const tiltY = -dx * 6;   // graus horizontal
+                heroContent.style.transform =
+                    `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+
+                // Imagem se move levemente na direção oposta (profundidade)
+                heroImg.style.transform =
+                    `scale(1.12) translate(${dx * -12}px, ${dy * -12}px)`;
+            });
+
+            hero.addEventListener('mouseleave', () => {
+                heroContent.style.transform = 'perspective(900px) rotateX(0) rotateY(0)';
+                heroImg.style.transform = 'scale(1.1) translateY(0)';
+            });
+        }
+
+        // ── Scroll Reveal via IntersectionObserver ───────
+        function initReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // anima só uma vez
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        window.onload = () => {
+            renderMenu(); // já chama initReveal() internamente após criar os cards
+            // observa os elementos estáticos (fora do menu)
+            initReveal();
+        };
     </script>
 </body>
 
