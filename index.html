@@ -16,6 +16,10 @@
     <meta name="author" content="Bolo Leal">
     <meta name="robots" content="index, follow">
 
+    <!-- Favicon — coloque o arquivo em assets/favicon.png -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/favicon.png">
+
     <!-- Canonical — troque pelo domínio real quando tiver -->
     <link rel="canonical" href="https://seuusuario.github.io/bolo-leal/">
 
@@ -316,6 +320,13 @@
         #hero-buttons {
             animation: heroEntrance .9s cubic-bezier(.22, .61, .36, 1) .8s both;
         }
+
+        /* ── Logo no Nav ─────────────────────────────────── */
+        /*
+            Se a sua logo for escura e precisar ficar branca no nav,
+            descomente a linha abaixo:
+        */
+        /* #nav-logo { filter: brightness(0) invert(1); } */
     </style>
 </head>
 
@@ -326,10 +337,36 @@
     <!-- NAV -->
     <nav class="fixed w-full z-50 py-4 md:py-6 transition-all duration-500" id="nav" aria-label="Navegação principal">
         <div class="max-w-7xl mx-auto px-6 md:px-8 flex justify-between items-center">
-            <a href="#" class="text-xl md:text-2xl font-serif italic font-bold tracking-tighter text-white"
-                aria-label="Bolo Leal — página inicial">
-                Bolo Leal
+
+            <!-- ─────────────────────────────────────────────────────
+                 LOGO NO MENU
+                 Opção A — só imagem (substitui o texto):
+                     Descomente o bloco "Opção A" e comente o "Opção B".
+
+                 Opção B — imagem + texto lado a lado (padrão abaixo):
+                     Mantenha como está. Troque "assets/logo.png" pelo
+                     caminho real da sua logo.
+
+                 Dica: se a logo for escura, adicione a classe
+                 "brightness-0 invert" na <img> para ela ficar branca.
+            ──────────────────────────────────────────────────────── -->
+
+            <!-- Opção A — só imagem -->
+            <!--
+            <a href="#" aria-label="Bolo Leal — página inicial">
+                <img id="nav-logo" src="assets/logo.png" alt="Bolo Leal" class="h-10 w-auto brightness-0 invert">
             </a>
+            -->
+
+            <!-- Opção B — imagem + texto (ATIVO) -->
+            <a href="#" class="flex items-center gap-3" aria-label="Bolo Leal — página inicial">
+                <img id="nav-logo" src="assets/logo.png" alt="" aria-hidden="true"
+                    class="h-9 w-auto brightness-0 invert" onerror="this.style.display='none'">
+                <span class="text-xl md:text-2xl font-serif italic font-bold tracking-tighter text-white">
+                    Bolo Leal
+                </span>
+            </a>
+
             <div
                 class="flex space-x-4 md:space-x-10 items-center text-white font-semibold text-[10px] md:text-xs tracking-widest uppercase">
                 <a href="#cardapio" class="hidden sm:inline hover:text-caramelo transition-colors">Sabores</a>
@@ -424,8 +461,8 @@
             </div>
             <div class="order-1 lg:order-2 relative px-4 md:px-0 reveal from-right">
                 <div class="polaroid w-full max-w-[280px] md:max-w-sm mx-auto shadow-2xl">
-                    <img src="assets/rocambole-morango.png" class="w-full aspect-[4/5] object-cover"
-                        alt="Rocambole de morango da Bolo Leal — recheio generoso em cada fatia">
+                    <img src="assets/bolo-maracuja.png" class="w-full aspect-[4/5] object-cover"
+                        alt="Bolo de maracujá da Bolo Leal — recheio generoso em cada fatia">
                     <p class="mt-4 font-serif italic text-center text-lg md:text-xl text-cafe">Honestidade em cada
                         camada</p>
                 </div>
@@ -433,10 +470,7 @@
         </div>
     </section>
 
-    <!-- FOOTER / ENCOMENDA
-         Desktop: py reduzido (py-16 md:py-20) + título maior (.text-footer clamp até 7.5rem)
-         Mobile: mantido como estava — ok conforme seu feedback
-    -->
+    <!-- FOOTER / ENCOMENDA -->
     <footer id="encomenda" class="relative py-16 md:py-20 overflow-hidden text-white"
         aria-labelledby="encomenda-titulo">
         <div class="visual-container">
@@ -481,9 +515,8 @@
 
     <!-- BOTÃO FLUTUANTE WHATSAPP -->
     <div class="fixed bottom-6 right-6 z-50">
-        <!-- WhatsApp -->
         <a href="https://wa.me/5541999990000" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp"
-            class="w-13 h-13 w-[52px] h-[52px] rounded-full shadow-xl flex items-center justify-center hover:-translate-y-1 hover:shadow-2xl transition-all duration-300"
+            class="w-[52px] h-[52px] rounded-full shadow-xl flex items-center justify-center hover:-translate-y-1 hover:shadow-2xl transition-all duration-300"
             style="background-color: #25D366;">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="white">
                 <path
@@ -535,7 +568,6 @@
                 grid.appendChild(li);
             });
 
-            // Inicia observer após renderizar os cards
             initReveal();
         }
 
@@ -559,7 +591,6 @@
         const heroImg = document.getElementById('hero-img');
         const heroContent = document.getElementById('hero-content');
 
-        // Parallax no scroll — imagem sobe mais devagar que a página
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             if (scrolled < window.innerHeight) {
@@ -567,23 +598,20 @@
             }
         }, { passive: true });
 
-        // Tilt 3D no movimento do mouse — só desktop
         const isTouchDevice = window.matchMedia('(hover: none)').matches;
         if (!isTouchDevice) {
             hero.addEventListener('mousemove', (e) => {
                 const rect = hero.getBoundingClientRect();
                 const cx = rect.left + rect.width / 2;
                 const cy = rect.top + rect.height / 2;
-                const dx = (e.clientX - cx) / (rect.width / 2); // -1 a 1
-                const dy = (e.clientY - cy) / (rect.height / 2); // -1 a 1
+                const dx = (e.clientX - cx) / (rect.width / 2);
+                const dy = (e.clientY - cy) / (rect.height / 2);
 
-                // Conteúdo inclina suavemente
-                const tiltX = dy * 6;   // graus vertical
-                const tiltY = -dx * 6;   // graus horizontal
+                const tiltX = dy * 6;
+                const tiltY = -dx * 6;
                 heroContent.style.transform =
                     `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
 
-                // Imagem se move levemente na direção oposta (profundidade)
                 heroImg.style.transform =
                     `scale(1.12) translate(${dx * -12}px, ${dy * -12}px)`;
             });
@@ -600,7 +628,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // anima só uma vez
+                        observer.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.12 });
@@ -609,8 +637,7 @@
         }
 
         window.onload = () => {
-            renderMenu(); // já chama initReveal() internamente após criar os cards
-            // observa os elementos estáticos (fora do menu)
+            renderMenu();
             initReveal();
         };
     </script>
